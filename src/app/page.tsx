@@ -11,7 +11,10 @@ export default function Home() {
     <>
       <Hero />
 
-      <ScrollVideo src="/videos/beacon-hero.mp4" />
+      <ScrollVideo
+        src="/videos/beacon-hero.mp4"
+        mobileSrc="/videos/beacon-hero-mobile.mp4"
+      />
 
       <WhyBeacon />
 

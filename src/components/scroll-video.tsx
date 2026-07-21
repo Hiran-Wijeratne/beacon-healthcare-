@@ -41,7 +41,13 @@ function clamp01(value: number) {
   return Math.min(1, Math.max(0, value));
 }
 
-export default function ScrollVideo({ src }: { src: string }) {
+export default function ScrollVideo({
+  src,
+  mobileSrc,
+}: {
+  src: string;
+  mobileSrc?: string;
+}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [progress, setProgress] = useState(0);
@@ -248,12 +254,16 @@ export default function ScrollVideo({ src }: { src: string }) {
         >
           <video
             ref={videoRef}
-            src={encodeURI(src)}
             muted
             playsInline
             preload="auto"
             className="h-full w-full object-cover"
-          />
+          >
+            {mobileSrc && (
+              <source media="(max-width: 639px)" src={encodeURI(mobileSrc)} type="video/mp4" />
+            )}
+            <source src={encodeURI(src)} type="video/mp4" />
+          </video>
 
           {showParticles && (
             <div
