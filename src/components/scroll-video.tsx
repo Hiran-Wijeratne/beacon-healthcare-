@@ -209,6 +209,24 @@ export default function ScrollVideo({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    // Mobile browsers often ignore preload="auto" and never fetch any video
+    // data until playback is explicitly triggered, since this video is only
+    // ever scrubbed via currentTime and never actually played. A silent
+    // play-then-pause forces the browser to start loading immediately.
+    const kickstart = () => {
+      video
+        .play()
+        .then(() => video.pause())
+        .catch(() => {});
+    };
+    video.addEventListener("loadedmetadata", kickstart, { once: true });
+    video.load();
+    return () => video.removeEventListener("loadedmetadata", kickstart);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
     const seekToTarget = () => {
       if (video.seeking || Number.isNaN(video.duration)) return;
