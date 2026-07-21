@@ -32,6 +32,7 @@ const courses = [
 
 export default function OurCourses() {
   const [active, setActive] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
   const [openMobile, setOpenMobile] = useState<number | null>(null);
   const header = useRevealOnScroll<HTMLDivElement>();
   const list = useRevealOnScroll<HTMLDivElement>();
@@ -87,19 +88,27 @@ export default function OurCourses() {
               <div key={course.name} className="border-b border-[#E8E8E8] first:border-t">
                 <button
                   type="button"
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
+                  onMouseEnter={() => {
+                    setActive(i);
+                    setHovered(i);
+                  }}
+                  onFocus={() => {
+                    setActive(i);
+                    setHovered(i);
+                  }}
+                  onMouseLeave={() => setHovered(null)}
+                  onBlur={() => setHovered(null)}
                   className="hidden w-full items-center justify-between gap-6 py-7 text-left transition-colors duration-300 lg:flex"
                   style={{
-                    backgroundColor: active === i ? "rgba(0,0,0,0.02)" : "transparent",
+                    backgroundColor: hovered === i ? "rgba(0,0,0,0.02)" : "transparent",
                   }}
                 >
                   <div>
                     <div
                       className="inline-block origin-left text-lg font-medium transition-all duration-300"
                       style={{
-                        color: active === i ? "#000000" : "rgba(0,0,0,0.4)",
-                        transform: active === i ? "scale(1.03)" : "scale(1)",
+                        color: hovered === i ? "#000000" : "rgba(0,0,0,0.4)",
+                        transform: hovered === i ? "scale(1.03)" : "scale(1)",
                       }}
                     >
                       {course.name}
@@ -108,7 +117,7 @@ export default function OurCourses() {
                   </div>
                   <span
                     className="shrink-0 text-xl text-black transition-transform duration-300"
-                    style={{ transform: `translateX(${active === i ? 8 : 0}px)` }}
+                    style={{ transform: `translateX(${hovered === i ? 8 : 0}px)` }}
                   >
                     →
                   </span>
