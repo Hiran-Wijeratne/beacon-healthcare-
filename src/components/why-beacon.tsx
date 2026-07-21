@@ -47,7 +47,7 @@ export default function WhyBeacon() {
           style={riseStyle(header.visible)}
         >
           <p className="mx-auto inline-flex items-center rounded-full border border-line bg-white/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-ink">
-            Why Beacon
+            Why Beacon Healthcare
           </p>
           <h2 className="mt-6 text-3xl font-medium tracking-tight text-ink sm:text-[40px]">
             We prepare ordinary people for extraordinary moments.
