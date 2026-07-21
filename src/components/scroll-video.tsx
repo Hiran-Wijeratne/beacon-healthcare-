@@ -26,13 +26,13 @@ const WIND_MAX = 60;
 
 // After the video releases back into a card, scrolling snaps back to full
 // native speed and carries the reader straight past the reveal animations
-// in the sections below before they've had a chance to play. Resistance
+// in every section below before they've had a chance to play. Resistance
 // stays at full strength through the Why Beacon section (roughly one
 // viewport tall) so it doesn't ease off partway through, then relaxes
-// back up to full speed over the remaining zone rather than cutting off
-// abruptly.
+// gradually across the entire rest of the page — Courses, Corporate
+// Training, Preparation, and the final CTA — only returning to full
+// native speed right at the bottom of the page.
 const RESISTANCE_FULL_ZONE_VH = 100;
-const RESISTANCE_ZONE_VH = 220;
 const RESISTANCE_MIN_FACTOR = 0.35;
 
 const overlayLines = [
@@ -97,8 +97,13 @@ export default function ScrollVideo({
       if (zoneStart == null) return;
 
       const fullZoneHeight = (window.innerHeight * RESISTANCE_FULL_ZONE_VH) / 100;
-      const zoneHeight = (window.innerHeight * RESISTANCE_ZONE_VH) / 100;
-      const zoneEnd = zoneStart + zoneHeight;
+      // Ease all the way across the rest of the page — not just a fixed
+      // stretch — so every section below Why Beacon feels harder to
+      // scroll through, right up to the very bottom of the page.
+      const zoneEnd = Math.max(
+        zoneStart + fullZoneHeight,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
       const scrollY = window.scrollY;
       if (scrollY < zoneStart || scrollY >= zoneEnd) return;
 
@@ -106,8 +111,11 @@ export default function ScrollVideo({
       if (scrollY < zoneStart + fullZoneHeight) {
         factor = RESISTANCE_MIN_FACTOR;
       } else {
-        const easeHeight = zoneHeight - fullZoneHeight;
-        const t = clamp01((scrollY - zoneStart - fullZoneHeight) / easeHeight);
+        const easeHeight = zoneEnd - zoneStart - fullZoneHeight;
+        const t =
+          easeHeight > 0
+            ? clamp01((scrollY - zoneStart - fullZoneHeight) / easeHeight)
+            : 1;
         const eased = t * t;
         factor = RESISTANCE_MIN_FACTOR + (1 - RESISTANCE_MIN_FACTOR) * eased;
       }
