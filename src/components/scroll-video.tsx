@@ -6,6 +6,7 @@ const CARD_WIDTH_VW = 84;
 const CARD_HEIGHT_VH = 56;
 const CARD_MARGIN_TOP_VH = 8;
 const CARD_RADIUS_PX = 24;
+const CARD_BOTTOM_MARGIN_PX = 38; // ~1cm — small gap left below the card when growth begins
 const TRACK_HEIGHT_VH = 1000;
 const GROW_END = 0.25;
 const SCRUB_START_GROW_FRACTION = 0.75;
@@ -60,11 +61,12 @@ export default function ScrollVideo({
       const rect = track.getBoundingClientRect();
       const vh = window.innerHeight;
       const docTop = rect.top + window.scrollY;
-      // Growth should start the moment the card's bottom edge clears the
-      // viewport bottom (a gap appears below it) — that happens slightly
-      // before the sticky container fully locks to the top of the screen.
+      // Growth should start the moment the whole card is visible with just
+      // a small gap left below it — that happens slightly before the
+      // sticky container fully locks to the top of the screen.
       const cardBottomVh = CARD_MARGIN_TOP_VH + CARD_HEIGHT_VH;
-      const triggerY = docTop - (vh * (100 - cardBottomVh)) / 100;
+      const triggerY =
+        docTop - (vh * (100 - cardBottomVh)) / 100 + CARD_BOTTOM_MARGIN_PX;
       // Progress runs all the way to the track's true bottom edge, not just
       // to where the sticky pin naturally releases (one viewport earlier).
       // Otherwise that last viewport of scrolling has nothing left to
