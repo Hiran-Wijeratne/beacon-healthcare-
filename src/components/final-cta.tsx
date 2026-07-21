@@ -32,7 +32,7 @@ export default function FinalCta() {
     <section id="contact" className="border-t border-line bg-white">
       <div
         ref={ref}
-        className="mx-auto max-w-[1280px] px-6 pt-20 pb-16 sm:pt-28 sm:pb-20"
+        className="mx-auto max-w-[1280px] px-6 pt-20 sm:pt-28"
       >
         {/* CTA */}
         <div className="mx-auto max-w-2xl text-center">
@@ -142,7 +142,7 @@ export default function FinalCta() {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col items-center gap-3 border-t border-line pt-8 text-xs text-ink-muted sm:flex-row sm:justify-between">
+          <div className="mt-16 flex flex-col items-center gap-3 border-t border-line pt-8 pb-8 text-xs text-ink-muted sm:flex-row sm:justify-between">
             <p>© 2026 Beacon Healthcare</p>
             <p>SRFAC Accredited Training Centre</p>
           </div>
