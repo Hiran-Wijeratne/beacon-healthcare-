@@ -10,15 +10,17 @@ const benefits = [
 ];
 
 export default function CorporateTraining() {
-  const scene = useRevealOnScroll<HTMLDivElement>();
-  const content = useRevealOnScroll<HTMLDivElement>();
+  const { ref: revealRef, visible } = useRevealOnScroll<HTMLDivElement>();
 
   return (
     <section id="corporate" className="relative overflow-hidden bg-white">
       <div
-        ref={scene.ref}
-        className="relative py-20 transition-opacity duration-700 ease-out sm:py-28"
-        style={{ opacity: scene.visible ? 1 : 0 }}
+        ref={revealRef}
+        className="relative pt-20 pb-40 transition-all duration-700 ease-out sm:pt-28 sm:pb-64"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(24px)",
+        }}
       >
         {/* Room backdrop, full width of the section */}
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -78,14 +80,7 @@ export default function CorporateTraining() {
         </div>
 
         {/* content, on the centre wall */}
-        <div
-          ref={content.ref}
-          className="relative z-30 mx-auto max-w-2xl px-6 text-center transition-all duration-700 ease-out"
-          style={{
-            opacity: content.visible ? 1 : 0,
-            transform: content.visible ? "translateY(0)" : "translateY(24px)",
-          }}
-        >
+        <div className="relative z-30 mx-auto max-w-2xl px-6 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-black/50">
             Corporate Training
           </p>
@@ -101,13 +96,7 @@ export default function CorporateTraining() {
           </p>
         </div>
 
-        <div
-          className="relative z-30 mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center px-6 transition-all duration-700 ease-out sm:flex-nowrap"
-          style={{
-            opacity: content.visible ? 1 : 0,
-            transform: content.visible ? "translateY(0)" : "translateY(24px)",
-          }}
-        >
+        <div className="relative z-30 mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center px-6 sm:flex-nowrap">
           {benefits.map((benefit, i) => (
             <div
               key={benefit}
@@ -121,13 +110,7 @@ export default function CorporateTraining() {
           ))}
         </div>
 
-        <div
-          className="relative z-30 mt-14 flex justify-center px-6 transition-all duration-700 ease-out"
-          style={{
-            opacity: content.visible ? 1 : 0,
-            transform: content.visible ? "translateY(0)" : "translateY(24px)",
-          }}
-        >
+        <div className="relative z-30 mt-14 flex justify-center px-6">
           <a
             href="#contact"
             className="rounded-full bg-black px-8 py-4 text-sm font-medium text-white transition-all duration-300 hover:scale-[1.02] hover:opacity-90"
