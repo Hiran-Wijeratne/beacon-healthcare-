@@ -110,7 +110,11 @@ export default function ScrollVideo({
     return () => window.removeEventListener("wheel", onWheel);
   }, []);
 
-  const growProgress = clamp01(progress / GROW_END);
+  // Eased so the size change is clearly visible right as growth begins,
+  // instead of a linear ramp whose first stretch is too subtle to notice —
+  // the card still reaches full size at exactly the same scroll distance.
+  const growLinear = clamp01(progress / GROW_END);
+  const growProgress = 1 - (1 - growLinear) ** 3;
   const scrubProgress = clamp01((progress - SCRUB_START) / (1 - SCRUB_START));
 
   const isFullscreen = progress >= GROW_END;
