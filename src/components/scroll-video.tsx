@@ -23,6 +23,14 @@ const WIND_FACTOR = 0.15;
 const WIND_DECAY = 0.94;
 const WIND_MAX = 60;
 
+// After the video releases back into a card, scrolling snaps back to full
+// native speed and carries the reader straight past the reveal animations
+// in the sections below before they've had a chance to play. This zone
+// slows scrolling down for a stretch beyond the track's end, easing back
+// up to full speed rather than cutting off abruptly.
+const RESISTANCE_ZONE_VH = 220;
+const RESISTANCE_MIN_FACTOR = 0.35;
+
 const overlayLines = [
   { text: "Most days are ordinary.", className: "text-white" },
   { text: "The unexpected rarely announces itself.", className: "text-white" },
@@ -37,6 +45,7 @@ export default function ScrollVideo({ src }: { src: string }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [progress, setProgress] = useState(0);
+  const trackEndYRef = useRef<number | null>(null);
 
   useEffect(() => {
     const measure = () => {
@@ -57,6 +66,7 @@ export default function ScrollVideo({ src }: { src: string }) {
       // as a dead, empty gap before the next section appears.
       const endY = docTop + rect.height;
       const span = endY - triggerY;
+      trackEndYRef.current = endY;
       setProgress(span > 0 ? clamp01((window.scrollY - triggerY) / span) : 0);
     };
 
@@ -67,6 +77,28 @@ export default function ScrollVideo({ src }: { src: string }) {
       window.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
     };
+  }, []);
+
+  useEffect(() => {
+    const onWheel = (event: WheelEvent) => {
+      const zoneStart = trackEndYRef.current;
+      if (zoneStart == null) return;
+
+      const zoneHeight = (window.innerHeight * RESISTANCE_ZONE_VH) / 100;
+      const zoneEnd = zoneStart + zoneHeight;
+      const scrollY = window.scrollY;
+      if (scrollY < zoneStart || scrollY >= zoneEnd) return;
+
+      const t = clamp01((scrollY - zoneStart) / zoneHeight);
+      const eased = t * t;
+      const factor = RESISTANCE_MIN_FACTOR + (1 - RESISTANCE_MIN_FACTOR) * eased;
+
+      event.preventDefault();
+      window.scrollBy(0, event.deltaY * factor);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
   }, []);
 
   const growProgress = clamp01(progress / GROW_END);
