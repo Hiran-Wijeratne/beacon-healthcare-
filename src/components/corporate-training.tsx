@@ -11,6 +11,7 @@ const benefits = [
 
 export default function CorporateTraining() {
   const { ref: revealRef, visible } = useRevealOnScroll<HTMLDivElement>();
+  const { ref: contentRef, visible: contentVisible } = useRevealOnScroll<HTMLDivElement>();
 
   return (
     <section id="corporate" className="relative overflow-hidden bg-white">
@@ -81,7 +82,15 @@ export default function CorporateTraining() {
         </div>
 
         {/* content, on the centre wall */}
-        <div className="relative z-30 mx-auto max-w-2xl px-6 text-center">
+        <div
+          ref={contentRef}
+          className="relative z-30 mx-auto max-w-2xl px-6 text-center transition-all duration-[800ms] ease-out"
+          style={{
+            opacity: contentVisible ? 1 : 0,
+            transform: contentVisible ? "translateY(0)" : "translateY(24px)",
+            transitionDelay: "150ms",
+          }}
+        >
           <p className="text-xs font-semibold uppercase tracking-widest text-black/50">
             Corporate Training
           </p>
