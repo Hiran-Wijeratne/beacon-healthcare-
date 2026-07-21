@@ -31,14 +31,14 @@ export default function Preparation() {
         <div className="relative z-10 mx-auto flex h-full max-w-[1280px] items-center px-6">
           <div>
             <p
-              className="text-xs font-semibold uppercase tracking-widest text-white/70 transition-all duration-[400ms] ease-out"
-              style={riseStyle(0)}
+              className="text-xs font-semibold uppercase tracking-widest text-white/70 transition-all duration-[700ms] ease-out"
+              style={riseStyle(100)}
             >
               Preparation
             </p>
             <h2
-              className="mt-6 max-w-[520px] text-3xl font-medium leading-[1.25] tracking-tight text-white transition-all duration-[400ms] ease-out sm:text-[40px]"
-              style={riseStyle(150)}
+              className="mt-6 max-w-[520px] text-3xl font-medium leading-[1.25] tracking-tight text-white transition-all duration-[700ms] ease-out sm:text-[40px]"
+              style={riseStyle(280)}
             >
               Preparation begins
               <br />
@@ -47,8 +47,8 @@ export default function Preparation() {
               an emergency.
             </h2>
             <p
-              className="mt-8 max-w-[420px] text-lg leading-relaxed text-white/70 transition-all duration-[400ms] ease-out"
-              style={riseStyle(300)}
+              className="mt-8 max-w-[420px] text-lg leading-relaxed text-white/70 transition-all duration-[700ms] ease-out"
+              style={riseStyle(460)}
             >
               The confidence to act tomorrow begins with the decisions you
               make today.

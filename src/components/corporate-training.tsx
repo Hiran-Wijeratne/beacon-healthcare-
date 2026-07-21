@@ -16,10 +16,11 @@ export default function CorporateTraining() {
     <section id="corporate" className="relative overflow-hidden bg-white">
       <div
         ref={revealRef}
-        className="relative pt-20 pb-40 transition-all duration-700 ease-out sm:pt-28 sm:pb-64"
+        className="relative pt-20 pb-40 transition-all duration-[900ms] ease-out sm:pt-28 sm:pb-64"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? "translateY(0)" : "translateY(24px)",
+          transitionDelay: "100ms",
         }}
       >
         {/* Room backdrop, full width of the section */}

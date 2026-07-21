@@ -21,7 +21,7 @@ const socialLinks = ["LinkedIn", "Facebook", "Instagram"];
 export default function FinalCta() {
   const { ref, visible } = useRevealOnScroll<HTMLDivElement>();
 
-  const riseStyle = (delayMs: number, durationMs = 400) => ({
+  const riseStyle = (delayMs: number, durationMs = 700) => ({
     opacity: visible ? 1 : 0,
     transform: visible ? "translateY(0)" : "translateY(16px)",
     transitionDelay: `${delayMs}ms`,
@@ -38,13 +38,13 @@ export default function FinalCta() {
         <div className="mx-auto max-w-2xl text-center">
           <p
             className="text-xs font-semibold uppercase tracking-widest text-ink-muted transition-all ease-out"
-            style={riseStyle(0)}
+            style={riseStyle(100)}
           >
             Be Ready
           </p>
           <h2
             className="mt-6 text-4xl font-medium leading-[1.1] tracking-tight text-ink transition-all ease-out sm:text-5xl lg:text-6xl"
-            style={riseStyle(150)}
+            style={riseStyle(280)}
           >
             Preparation starts
             <br />
@@ -52,7 +52,7 @@ export default function FinalCta() {
           </h2>
           <p
             className="mx-auto mt-6 max-w-[620px] text-lg leading-relaxed text-ink-muted transition-all ease-out"
-            style={riseStyle(250)}
+            style={riseStyle(460)}
           >
             Every certification is more than a qualification. It&apos;s the
             confidence to stay calm, respond with purpose, and make a
@@ -61,7 +61,7 @@ export default function FinalCta() {
 
           <div
             className="mt-12 flex flex-col items-center justify-center gap-4 transition-all ease-out sm:flex-row"
-            style={riseStyle(400)}
+            style={riseStyle(650)}
           >
             <a
               href="#courses"
@@ -80,8 +80,8 @@ export default function FinalCta() {
 
         {/* Footer */}
         <div
-          className="mt-[72px] border-t border-line pt-16 transition-all duration-500 ease-out sm:mt-[120px]"
-          style={riseStyle(600, 500)}
+          className="mt-[72px] border-t border-line pt-16 transition-all duration-[900ms] ease-out sm:mt-[120px]"
+          style={riseStyle(850, 900)}
         >
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             <div>

@@ -41,10 +41,11 @@ export default function OurCourses() {
       <div className="mx-auto max-w-[1200px]">
         <div
           ref={header.ref}
-          className="mx-auto max-w-2xl text-center transition-all duration-700 ease-out"
+          className="mx-auto max-w-2xl text-center transition-all duration-[900ms] ease-out"
           style={{
             opacity: header.visible ? 1 : 0,
             transform: header.visible ? "translateY(0)" : "translateY(24px)",
+            transitionDelay: "100ms",
           }}
         >
           <p className="text-xs font-semibold uppercase tracking-widest text-black/50">
@@ -62,10 +63,11 @@ export default function OurCourses() {
 
         <div
           ref={list.ref}
-          className="mt-20 grid gap-4 transition-all duration-700 ease-out lg:grid-cols-[3fr_2fr] lg:gap-16"
+          className="mt-20 grid gap-4 transition-all duration-[900ms] ease-out lg:grid-cols-[3fr_2fr] lg:gap-16"
           style={{
             opacity: list.visible ? 1 : 0,
             transform: list.visible ? "translateY(0)" : "translateY(24px)",
+            transitionDelay: "150ms",
           }}
         >
           <div className="relative hidden aspect-[16/10] overflow-hidden rounded-xl lg:block">

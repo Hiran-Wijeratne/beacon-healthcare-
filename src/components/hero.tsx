@@ -19,30 +19,30 @@ export default function Hero() {
       className="mx-auto max-w-3xl px-6 pt-12 pb-20 text-center sm:pt-16 sm:pb-24"
     >
       <p
-        className="mx-auto mb-6 inline-flex items-center rounded-full border border-line bg-white/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-ink transition-all duration-500 ease-out"
-        style={riseStyle(0)}
+        className="mx-auto mb-6 inline-flex items-center rounded-full border border-line bg-white/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-ink transition-all duration-700 ease-out"
+        style={riseStyle(100)}
       >
         {trustBadge}
       </p>
 
       <h1
-        className="text-4xl font-medium leading-[1.05] tracking-tight text-ink transition-all duration-500 ease-out sm:text-6xl lg:text-7xl"
-        style={riseStyle(150)}
+        className="text-4xl font-medium leading-[1.05] tracking-tight text-ink transition-all duration-700 ease-out sm:text-6xl lg:text-7xl"
+        style={riseStyle(250)}
       >
         Get Certified with Confidence
       </h1>
 
       <p
-        className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-muted transition-all duration-500 ease-out sm:text-xl"
-        style={riseStyle(250)}
+        className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-muted transition-all duration-700 ease-out sm:text-xl"
+        style={riseStyle(400)}
       >
         Accredited first aid training designed for individuals, workplaces
         and corporate teams across Singapore.
       </p>
 
       <div
-        className="mt-10 flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out sm:flex-row"
-        style={riseStyle(400)}
+        className="mt-10 flex flex-col items-center justify-center gap-4 transition-all duration-700 ease-out sm:flex-row"
+        style={riseStyle(600)}
       >
         <a
           href="#contact"
