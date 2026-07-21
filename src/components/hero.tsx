@@ -1,0 +1,62 @@
+"use client";
+
+import { useRevealOnScroll } from "@/hooks/use-reveal-on-scroll";
+
+const trustBadge = "SRFAC-Accredited • SSG-Approved Training Provider";
+
+export default function Hero() {
+  const { ref, visible } = useRevealOnScroll<HTMLDivElement>();
+
+  const riseStyle = (delayMs: number) => ({
+    opacity: visible ? 1 : 0,
+    transform: visible ? "translateY(0)" : "translateY(16px)",
+    transitionDelay: `${delayMs}ms`,
+  });
+
+  return (
+    <section
+      ref={ref}
+      className="mx-auto max-w-3xl px-6 pt-12 pb-20 text-center sm:pt-16 sm:pb-24"
+    >
+      <p
+        className="mx-auto mb-6 inline-flex items-center rounded-full border border-line bg-white/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-ink transition-all duration-500 ease-out"
+        style={riseStyle(0)}
+      >
+        {trustBadge}
+      </p>
+
+      <h1
+        className="text-4xl font-medium leading-[1.05] tracking-tight text-ink transition-all duration-500 ease-out sm:text-6xl lg:text-7xl"
+        style={riseStyle(150)}
+      >
+        Get Certified with Confidence
+      </h1>
+
+      <p
+        className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-muted transition-all duration-500 ease-out sm:text-xl"
+        style={riseStyle(250)}
+      >
+        Accredited first aid training designed for individuals, workplaces
+        and corporate teams across Singapore.
+      </p>
+
+      <div
+        className="mt-10 flex flex-col items-center justify-center gap-4 transition-all duration-500 ease-out sm:flex-row"
+        style={riseStyle(400)}
+      >
+        <a
+          href="#contact"
+          className="rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-opacity hover:opacity-90 sm:text-base"
+        >
+          Register for Courses
+        </a>
+        <a
+          href="#courses"
+          className="rounded-full border border-line bg-white/70 px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-white sm:text-base"
+        >
+          View All Courses
+        </a>
+      </div>
+    </section>
+  );
+}
