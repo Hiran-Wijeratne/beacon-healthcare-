@@ -26,9 +26,12 @@ const WIND_MAX = 60;
 
 // After the video releases back into a card, scrolling snaps back to full
 // native speed and carries the reader straight past the reveal animations
-// in the sections below before they've had a chance to play. This zone
-// slows scrolling down for a stretch beyond the track's end, easing back
-// up to full speed rather than cutting off abruptly.
+// in the sections below before they've had a chance to play. Resistance
+// stays at full strength through the Why Beacon section (roughly one
+// viewport tall) so it doesn't ease off partway through, then relaxes
+// back up to full speed over the remaining zone rather than cutting off
+// abruptly.
+const RESISTANCE_FULL_ZONE_VH = 100;
 const RESISTANCE_ZONE_VH = 220;
 const RESISTANCE_MIN_FACTOR = 0.35;
 
@@ -93,14 +96,21 @@ export default function ScrollVideo({
       const zoneStart = trackEndYRef.current;
       if (zoneStart == null) return;
 
+      const fullZoneHeight = (window.innerHeight * RESISTANCE_FULL_ZONE_VH) / 100;
       const zoneHeight = (window.innerHeight * RESISTANCE_ZONE_VH) / 100;
       const zoneEnd = zoneStart + zoneHeight;
       const scrollY = window.scrollY;
       if (scrollY < zoneStart || scrollY >= zoneEnd) return;
 
-      const t = clamp01((scrollY - zoneStart) / zoneHeight);
-      const eased = t * t;
-      const factor = RESISTANCE_MIN_FACTOR + (1 - RESISTANCE_MIN_FACTOR) * eased;
+      let factor;
+      if (scrollY < zoneStart + fullZoneHeight) {
+        factor = RESISTANCE_MIN_FACTOR;
+      } else {
+        const easeHeight = zoneHeight - fullZoneHeight;
+        const t = clamp01((scrollY - zoneStart - fullZoneHeight) / easeHeight);
+        const eased = t * t;
+        factor = RESISTANCE_MIN_FACTOR + (1 - RESISTANCE_MIN_FACTOR) * eased;
+      }
 
       event.preventDefault();
       window.scrollBy(0, event.deltaY * factor);
