@@ -29,7 +29,7 @@ export default function Hero() {
         className="text-4xl font-medium leading-[1.05] tracking-tight text-ink transition-all duration-700 ease-out sm:text-6xl lg:text-7xl"
         style={riseStyle(250)}
       >
-        Get Certified with Confidence
+        Learn First Aid. Make a Difference.
       </h1>
 
       <p
