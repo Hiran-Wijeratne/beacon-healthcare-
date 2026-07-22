@@ -1,5 +1,6 @@
 "use client";
 
+import PulseDivider from "@/components/pulse-divider";
 import { useRevealOnScroll } from "@/hooks/use-reveal-on-scroll";
 
 const navLinks = [
@@ -27,7 +28,8 @@ export default function FinalCta() {
   });
 
   return (
-    <section id="contact" className="border-t border-line bg-white">
+    <section id="contact" className="bg-white">
+      <PulseDivider />
       <div
         ref={ref}
         className="mx-auto max-w-[1280px] px-6 pt-20 sm:pt-28"
@@ -78,10 +80,11 @@ export default function FinalCta() {
 
         {/* Footer */}
         <div
-          className="mt-[72px] border-t border-line pt-16 transition-all duration-[900ms] ease-out sm:mt-[120px]"
+          className="mt-[72px] transition-all duration-[900ms] ease-out sm:mt-[120px]"
           style={riseStyle(850, 900)}
         >
-          <div className="flex flex-col gap-12 sm:flex-row sm:justify-between sm:gap-8">
+          <PulseDivider />
+          <div className="flex flex-col gap-12 pt-16 sm:flex-row sm:justify-between sm:gap-8">
             <div>
               <p className="text-sm font-semibold text-ink">Beacon Healthcare</p>
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-muted">
@@ -124,7 +127,8 @@ export default function FinalCta() {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col items-center gap-3 border-t border-line pt-8 pb-8 text-xs text-ink-muted sm:flex-row sm:justify-between">
+          <PulseDivider className="mt-16" />
+          <div className="flex flex-col items-center gap-3 pt-8 pb-8 text-xs text-ink-muted sm:flex-row sm:justify-between">
             <p>© 2026 Beacon Healthcare</p>
             <p>SRFAC Accredited Training Centre</p>
           </div>
