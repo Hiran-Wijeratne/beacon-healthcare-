@@ -81,7 +81,7 @@ export default function FinalCta() {
           className="mt-[72px] border-t border-line pt-16 transition-all duration-[900ms] ease-out sm:mt-[120px]"
           style={riseStyle(850, 900)}
         >
-          <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 lg:gap-8">
+          <div className="flex flex-col gap-12 sm:flex-row sm:justify-between sm:gap-8">
             <div>
               <p className="text-sm font-semibold text-ink">Beacon Healthcare</p>
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-muted">
@@ -90,35 +90,37 @@ export default function FinalCta() {
               </p>
             </div>
 
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-ink-muted">
-                Navigation
-              </p>
-              <ul className="mt-4 space-y-3">
-                {navLinks.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <div className="flex flex-col gap-12 sm:flex-row sm:gap-16">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-ink-muted">
+                  Navigation
+                </p>
+                <ul className="mt-4 space-y-3">
+                  {navLinks.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-ink-muted">
-                Contact
-              </p>
-              <ul className="mt-4 space-y-3">
-                {contactDetails.map((detail) => (
-                  <li key={detail.label} className="text-sm text-ink-muted">
-                    {detail.value}
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-ink-muted">
+                  Contact
+                </p>
+                <ul className="mt-4 space-y-3">
+                  {contactDetails.map((detail) => (
+                    <li key={detail.label} className="text-sm text-ink-muted">
+                      {detail.value}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
