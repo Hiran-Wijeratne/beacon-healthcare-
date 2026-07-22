@@ -17,24 +17,22 @@ const SPEED_PER_MS = 100 / 1800;
 const FADE_MS = 150; // eases the whole blip in and out at the start/end of its life
 const STAGGER_MS = 450;
 
-// A real ECG monitor's PQRST complex, as (x-offset, y-offset) control points
-// around the pulse's current position: a small P bump, a flat PR segment,
-// the sharp Q-dip/R-spike/S-dip, a flat ST segment, then a broader T bump.
-// Linear interpolation between them is deliberate — that's what gives real
-// ECG traces their characteristic sharp, angular spikes.
+// Traced from the brand's own favicon/logo pulse icon (public/images/
+// favicon-source.png): a small up-notch, a sharp tall spike, a deep dip
+// below the baseline, then a smaller recovery bump. (x-offset, y-offset)
+// control points around the pulse's current position — SVG y grows
+// downward, so the upward strokes use negative offsets. Linear
+// interpolation between them is deliberate: that's what gives the source
+// icon its sharp, angular strokes rather than smooth curves.
 const ECG_POINTS: [number, number][] = [
   [-12, 0],
   [-9, 0],
-  [-7, 2],
-  [-5, 0],
-  [-3, 0],
-  [-1.8, -1.3],
-  [0, 9],
-  [1, -4.5],
-  [2, 0],
-  [3.5, 0],
-  [6, 2.2],
-  [9, 0],
+  [-6.7, -2.3],
+  [-4.3, -0.7],
+  [0, -9],
+  [4.8, 2.5],
+  [8.4, -1.8],
+  [11, 0],
   [12, 0],
 ];
 const KERNEL_SPAN = -ECG_POINTS[0][0];
