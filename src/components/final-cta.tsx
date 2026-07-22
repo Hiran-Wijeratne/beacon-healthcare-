@@ -16,8 +16,6 @@ const contactDetails = [
   { label: "Address", value: "10 Anson Road, Singapore 079903" },
 ];
 
-const socialLinks = ["LinkedIn", "Facebook", "Instagram"];
-
 export default function FinalCta() {
   const { ref, visible } = useRevealOnScroll<HTMLDivElement>();
 
@@ -83,7 +81,7 @@ export default function FinalCta() {
           className="mt-[72px] border-t border-line pt-16 transition-all duration-[900ms] ease-out sm:mt-[120px]"
           style={riseStyle(850, 900)}
         >
-          <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+          <div className="grid grid-cols-1 gap-12 sm:grid-cols-3 lg:gap-8">
             <div>
               <p className="text-sm font-semibold text-ink">Beacon Healthcare</p>
               <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-muted">
@@ -118,24 +116,6 @@ export default function FinalCta() {
                 {contactDetails.map((detail) => (
                   <li key={detail.label} className="text-sm text-ink-muted">
                     {detail.value}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-ink-muted">
-                Follow
-              </p>
-              <ul className="mt-4 space-y-3">
-                {socialLinks.map((label) => (
-                  <li key={label}>
-                    <a
-                      href="#"
-                      className="text-sm text-ink-muted transition-colors duration-200 hover:text-ink"
-                    >
-                      {label}
-                    </a>
                   </li>
                 ))}
               </ul>
