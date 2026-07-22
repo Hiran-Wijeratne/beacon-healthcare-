@@ -19,20 +19,3 @@ body {
   background: var(--paper);
   color: var(--ink);
 }
-
-@keyframes pulse-travel {
-  0% {
-    left: var(--pulse-start);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.55;
-  }
-  85% {
-    opacity: 0.55;
-  }
-  100% {
-    left: var(--pulse-end);
-    opacity: 0;
-  }
-}
