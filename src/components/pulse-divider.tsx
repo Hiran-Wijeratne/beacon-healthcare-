@@ -14,12 +14,42 @@ const BASELINE_Y = 12;
 // the same visual pace regardless of how far it has to go — this crosses
 // the full width of the line in ~1.8s.
 const SPEED_PER_MS = 100 / 1800;
-const KERNEL_SPAN = 8; // how far the bump's influence reaches on either side
-const BUMP_SEPARATION = 2.2;
-const SIGMA = 1.1;
-const AMPLITUDE = 9;
-const FADE_MS = 150; // eases the bump in and out at the start/end of its life
+const FADE_MS = 150; // eases the whole blip in and out at the start/end of its life
 const STAGGER_MS = 450;
+
+// A real ECG monitor's PQRST complex, as (x-offset, y-offset) control points
+// around the pulse's current position: a small P bump, a flat PR segment,
+// the sharp Q-dip/R-spike/S-dip, a flat ST segment, then a broader T bump.
+// Linear interpolation between them is deliberate — that's what gives real
+// ECG traces their characteristic sharp, angular spikes.
+const ECG_POINTS: [number, number][] = [
+  [-12, 0],
+  [-9, 0],
+  [-7, 2],
+  [-5, 0],
+  [-3, 0],
+  [-1.8, -1.3],
+  [0, 9],
+  [1, -4.5],
+  [2, 0],
+  [3.5, 0],
+  [6, 2.2],
+  [9, 0],
+  [12, 0],
+];
+const KERNEL_SPAN = -ECG_POINTS[0][0];
+
+function ecgOffset(dx: number) {
+  if (dx <= ECG_POINTS[0][0] || dx >= ECG_POINTS[ECG_POINTS.length - 1][0]) return 0;
+  for (let i = 0; i < ECG_POINTS.length - 1; i++) {
+    const [x0, y0] = ECG_POINTS[i];
+    const [x1, y1] = ECG_POINTS[i + 1];
+    if (dx >= x0 && dx <= x1) {
+      return y0 + ((y1 - y0) * (dx - x0)) / (x1 - x0);
+    }
+  }
+  return 0;
+}
 
 let globalTriggerBound = false;
 
@@ -76,15 +106,11 @@ export default function PulseDivider({ className = "" }: { className?: string })
 
           const currentX = pulse.startX - SPEED_PER_MS * age;
           const fade = Math.min(1, age / FADE_MS, (pulse.durationMs - age) / FADE_MS);
-          const amp = AMPLITUDE * fade;
 
           const lo = Math.max(0, Math.ceil(currentX - KERNEL_SPAN));
           const hi = Math.min(SAMPLE_COUNT, Math.floor(currentX + KERNEL_SPAN));
           for (let i = lo; i <= hi; i++) {
-            const d = i - currentX;
-            const up = Math.exp(-((d + BUMP_SEPARATION) ** 2) / (2 * SIGMA * SIGMA));
-            const down = Math.exp(-((d - BUMP_SEPARATION) ** 2) / (2 * SIGMA * SIGMA));
-            ys[i] += amp * (up - down);
+            ys[i] += fade * ecgOffset(i - currentX);
           }
           return true;
         });
