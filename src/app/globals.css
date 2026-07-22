@@ -22,17 +22,17 @@ body {
 
 @keyframes pulse-travel {
   0% {
-    left: -15%;
+    left: var(--pulse-start);
     opacity: 0;
   }
-  15% {
+  10% {
     opacity: 0.55;
   }
   85% {
     opacity: 0.55;
   }
   100% {
-    left: 115%;
+    left: var(--pulse-end);
     opacity: 0;
   }
 }
