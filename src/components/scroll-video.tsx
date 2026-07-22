@@ -338,31 +338,37 @@ export default function ScrollVideo({
             </div>
           )}
 
-          {overlayLines.map((line, index) => (
-            <div
-              key={line.text}
-              className="absolute inset-0 flex flex-col items-start justify-center pb-24 pl-16 pr-8 transition-opacity duration-500 sm:pb-32 sm:pl-28 sm:pr-16"
-              style={{
-                opacity:
-                  isFullscreen && activeLine === index ? 1 - easedReleaseProgress : 0,
-                pointerEvents: isFullscreen && activeLine === index ? "auto" : "none",
-              }}
-            >
-              <p
-                className={`max-w-xl text-3xl font-medium tracking-tight sm:text-[40px] ${line.className}`}
+          {overlayLines.map((line, index) => {
+            // The first line is ordinary, static text: it's on the card from
+            // the very start (even before the video grows fullscreen), not
+            // gated behind isFullscreen like the lines that follow it.
+            const isVisible =
+              index === 0 ? activeLine === index : isFullscreen && activeLine === index;
+            return (
+              <div
+                key={line.text}
+                className="absolute inset-0 flex flex-col items-start justify-center pb-24 pl-16 pr-8 transition-opacity duration-500 sm:pb-32 sm:pl-28 sm:pr-16"
+                style={{
+                  opacity: isVisible ? 1 - easedReleaseProgress : 0,
+                  pointerEvents: isVisible ? "auto" : "none",
+                }}
               >
-                {line.text}
-              </p>
-              {index === overlayLines.length - 1 && (
-                <a
-                  href="#contact"
-                  className="mt-8 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-opacity hover:opacity-90 sm:text-base"
+                <p
+                  className={`max-w-xl text-3xl font-medium tracking-tight sm:text-[40px] ${line.className}`}
                 >
-                  Get Certified with Confidence
-                </a>
-              )}
-            </div>
-          ))}
+                  {line.text}
+                </p>
+                {index === overlayLines.length - 1 && (
+                  <a
+                    href="#contact"
+                    className="mt-8 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-opacity hover:opacity-90 sm:text-base"
+                  >
+                    Get Certified with Confidence
+                  </a>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
