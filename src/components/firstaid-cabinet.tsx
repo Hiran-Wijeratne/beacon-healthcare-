@@ -73,11 +73,11 @@ export default function FirstAidCabinet() {
         {/* Matches the open cabinet's interior cavity in the video's last
             frame (measured from the source footage), not the whole frame. */}
         <div
-          className={`pointer-events-none absolute left-[38.5%] top-[14%] flex h-[70%] w-[44%] flex-col items-end justify-center gap-[6%] p-[3%] text-right transition-opacity duration-700 ease-out ${
+          className={`pointer-events-none absolute left-[38.5%] top-[14%] flex h-[70%] w-[44%] flex-col items-center justify-center gap-[6%] p-[3%] text-center transition-opacity duration-700 ease-out ${
             showText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="flex flex-col items-end gap-2">
+          <div className="flex flex-col items-center gap-2">
             <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
               The moment you need
               <br />
