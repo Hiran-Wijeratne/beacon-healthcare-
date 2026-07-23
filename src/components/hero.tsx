@@ -16,7 +16,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden pt-12 pb-20 text-center sm:pt-16 sm:pb-24"
+      className="relative overflow-hidden pt-12 pb-20 text-center sm:pt-16 sm:pb-28"
     >
       <img
         src="/images/manikin-cutout.png"

@@ -64,7 +64,7 @@ export default function FirstAidCabinet() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="flex justify-center bg-white px-6">
+    <section ref={sectionRef} className="flex justify-center bg-white px-6 py-20 sm:py-28">
       <div className="relative w-3/4">
         <video ref={videoRef} muted playsInline preload="auto" className="block w-full">
           <source src={encodeURI("/videos/firstaid cabinet.mp4")} type="video/mp4" />
