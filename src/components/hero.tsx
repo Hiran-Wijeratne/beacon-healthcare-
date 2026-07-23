@@ -19,7 +19,7 @@ export default function Hero() {
       className="relative overflow-hidden pt-12 pb-20 text-center sm:pt-16 sm:pb-24"
     >
       <img
-        src="/images/manikin.svg"
+        src="/images/manikin-cutout.png"
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 select-none opacity-90 sm:max-w-6xl"
