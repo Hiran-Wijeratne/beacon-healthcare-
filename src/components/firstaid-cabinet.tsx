@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const PLAYBACK_DURATION_S = 1.5;
+const PLAYBACK_DURATION_S = 0.6;
 
 export default function FirstAidCabinet() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -72,17 +72,16 @@ export default function FirstAidCabinet() {
         {/* Matches the open cabinet's interior cavity in the video's last
             frame (measured from the source footage), not the whole frame. */}
         <div
-          className={`pointer-events-none absolute left-[38.5%] top-[14%] flex h-[70%] w-[44%] items-center justify-center p-[3%] text-center transition-opacity duration-700 ease-out ${
+          className={`pointer-events-none absolute left-[38.5%] top-[14%] flex h-[70%] w-[44%] flex-col items-center justify-center gap-[6%] p-[3%] text-center transition-opacity duration-700 ease-out ${
             showText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="text-[clamp(0.65rem,1.4vw,1.15rem)] font-medium leading-snug text-ink">
+          <p className="text-[clamp(0.75rem,1.6vw,1.35rem)] font-semibold leading-snug tracking-tight text-ink">
             The moment you need a first aid kit...
             <br />
-            <br />
             ...isn&apos;t the moment to wonder what to do.
-            <br />
-            <br />
+          </p>
+          <p className="text-[clamp(0.6rem,1.15vw,1rem)] leading-snug text-ink-muted">
             The decisions that matter most are made long before an emergency
             begins.
           </p>
