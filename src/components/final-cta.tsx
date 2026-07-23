@@ -29,7 +29,6 @@ export default function FinalCta() {
 
   return (
     <section id="contact" className="bg-white">
-      <PulseDivider />
       <div
         ref={ref}
         className="mx-auto max-w-[1280px] px-6 pt-20 sm:pt-28"
