@@ -23,8 +23,8 @@ export default function EcgDivider() {
               entire path once per loop, then repeats seamlessly. */}
           <path
             d={PATH_D}
-            stroke="var(--ink)"
-            strokeOpacity="0.55"
+            stroke="#af3337"
+            strokeOpacity="0.75"
             strokeWidth="2"
             strokeLinecap="round"
             strokeMiterlimit="10"
