@@ -29,12 +29,17 @@ export default function FinalCta() {
 
   return (
     <section id="contact" className="bg-white">
-      <div
-        ref={ref}
-        className="mx-auto max-w-[1280px] px-6"
-      >
+      <div ref={ref} className="relative overflow-hidden">
+        <img
+          src={encodeURI("/images/cta-cpr.png")}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-white/85" />
+
         {/* CTA */}
-        <div className="mx-auto max-w-2xl text-center">
+        <div className="relative mx-auto max-w-2xl px-6 py-20 text-center sm:py-28">
           <p
             className="text-xs font-semibold uppercase tracking-widest text-ink-muted transition-all ease-out"
             style={riseStyle(100)}
@@ -76,7 +81,9 @@ export default function FinalCta() {
             </a>
           </div>
         </div>
+      </div>
 
+      <div className="mx-auto max-w-[1280px] px-6">
         {/* Footer */}
         <div
           className="mt-[72px] transition-all duration-[900ms] ease-out sm:mt-[120px]"
