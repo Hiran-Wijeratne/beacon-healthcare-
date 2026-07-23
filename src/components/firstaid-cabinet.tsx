@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const PLAYBACK_DURATION_S = 0.8;
+const PLAYBACK_DURATION_S = 1;
 
 export default function FirstAidCabinet() {
   const sectionRef = useRef<HTMLElement>(null);
