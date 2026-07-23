@@ -31,7 +31,7 @@ export default function FinalCta() {
     <section id="contact" className="bg-white">
       <div
         ref={ref}
-        className="mx-auto max-w-[1280px] px-6 pt-20 sm:pt-28"
+        className="mx-auto max-w-[1280px] px-6 pt-12 sm:pt-16"
       >
         {/* CTA */}
         <div className="mx-auto max-w-2xl text-center">
