@@ -29,9 +29,9 @@ const trustStats = [
 ];
 
 export default function WhyBeacon() {
-  const header = useRevealOnScroll<HTMLDivElement>();
-  const features = useRevealOnScroll<HTMLDivElement>();
-  const stats = useRevealOnScroll<HTMLDivElement>();
+  const { ref: headerRef, visible: headerVisible } = useRevealOnScroll<HTMLDivElement>();
+  const { ref: featuresRef, visible: featuresVisible } = useRevealOnScroll<HTMLDivElement>();
+  const { ref: statsRef, visible: statsVisible } = useRevealOnScroll<HTMLDivElement>();
 
   const riseStyle = (visible: boolean, delayMs = 0) => ({
     opacity: visible ? 1 : 0,
@@ -40,12 +40,12 @@ export default function WhyBeacon() {
   });
 
   return (
-    <section id="why-beacon-content" className="px-6 py-20 sm:py-28">
+    <section id="why-beacon" className="px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-[1200px]">
         <div
-          ref={header.ref}
+          ref={headerRef}
           className="mx-auto max-w-2xl text-center transition-all duration-[800ms] ease-out"
-          style={riseStyle(header.visible, 100)}
+          style={riseStyle(headerVisible, 100)}
         >
           <p className="mx-auto inline-flex items-center rounded-full border border-line bg-white/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-ink">
             Why Beacon Healthcare
@@ -60,9 +60,9 @@ export default function WhyBeacon() {
         </div>
 
         <div
-          ref={features.ref}
+          ref={featuresRef}
           className="mt-16 grid gap-10 transition-all duration-[800ms] ease-out sm:grid-cols-2 sm:gap-8 lg:grid-cols-4"
-          style={riseStyle(features.visible, 100)}
+          style={riseStyle(featuresVisible, 100)}
         >
           {whyBeaconFeatures.map((feature) => (
             <div key={feature.title}>
@@ -75,9 +75,9 @@ export default function WhyBeacon() {
         </div>
 
         <div
-          ref={stats.ref}
+          ref={statsRef}
           className="mt-16 grid gap-y-8 transition-all duration-[800ms] ease-out sm:grid-cols-2 sm:gap-8 lg:grid-cols-4"
-          style={riseStyle(stats.visible, 100)}
+          style={riseStyle(statsVisible, 100)}
         >
           {trustStats.map((stat) => (
             <div key={stat.label} className="flex items-baseline gap-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRevealOnScroll } from "@/hooks/use-reveal-on-scroll";
 
 const courses = [
@@ -31,128 +31,113 @@ const courses = [
 ];
 
 export default function OurCourses() {
-  const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [openMobile, setOpenMobile] = useState<number | null>(null);
-  const header = useRevealOnScroll<HTMLDivElement>();
-  const list = useRevealOnScroll<HTMLDivElement>();
+  const [query, setQuery] = useState("");
+  const { ref: headerRef, visible: headerVisible } = useRevealOnScroll<HTMLDivElement>();
+  const { ref: listRef, visible: listVisible } = useRevealOnScroll<HTMLDivElement>();
+
+  const filteredCourses = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return courses;
+    return courses.filter(
+      (course) =>
+        course.name.toLowerCase().includes(q) ||
+        course.description.toLowerCase().includes(q),
+    );
+  }, [query]);
 
   return (
     <section id="courses" className="bg-white px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-[1200px]">
         <div
-          ref={header.ref}
+          ref={headerRef}
           className="mx-auto max-w-2xl text-center transition-all duration-[900ms] ease-out"
           style={{
-            opacity: header.visible ? 1 : 0,
-            transform: header.visible ? "translateY(0)" : "translateY(24px)",
+            opacity: headerVisible ? 1 : 0,
+            transform: headerVisible ? "translateY(0)" : "translateY(24px)",
             transitionDelay: "100ms",
           }}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-black/50">
+          <p className="text-xs font-semibold uppercase tracking-widest text-ink-muted">
             Our Courses
           </p>
-          <h2 className="mt-4 text-3xl font-medium tracking-tight text-black sm:text-[40px]">
+          <h2 className="mt-4 text-3xl font-medium tracking-tight text-ink sm:text-[40px]">
             Find the course that&apos;s right for you.
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-black/60">
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
             Whether you&apos;re renewing your certification, training your
             workplace, or learning first aid for the first time, we have a
             course designed to meet your needs.
           </p>
+
+          <div className="mx-auto mt-8 flex max-w-md items-center gap-3 rounded-full border border-line bg-white px-5 py-3 text-left transition-colors focus-within:border-ink/30">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden
+              className="shrink-0 text-ink-muted"
+            >
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+              <path
+                d="M21 21l-4.3-4.3"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search courses..."
+              className="w-full bg-transparent text-sm text-ink placeholder:text-ink-muted focus:outline-none"
+            />
+          </div>
         </div>
 
         <div
-          ref={list.ref}
-          className="mt-20 grid gap-4 transition-all duration-[900ms] ease-out lg:grid-cols-[3fr_2fr] lg:gap-16"
+          ref={listRef}
+          className="mt-14 grid grid-cols-1 gap-6 transition-all duration-[900ms] ease-out sm:grid-cols-2"
           style={{
-            opacity: list.visible ? 1 : 0,
-            transform: list.visible ? "translateY(0)" : "translateY(24px)",
+            opacity: listVisible ? 1 : 0,
+            transform: listVisible ? "translateY(0)" : "translateY(24px)",
             transitionDelay: "150ms",
           }}
         >
-          <div className="relative hidden aspect-[16/10] overflow-hidden rounded-xl lg:block">
-            {courses.map((course, i) => (
-              <img
-                key={course.name}
-                src={course.image}
-                alt={course.name}
-                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
-                style={{ opacity: active === i ? 1 : 0 }}
-              />
-            ))}
-          </div>
-
-          <div className="flex flex-col">
-            {courses.map((course, i) => (
-              <div key={course.name} className="border-b border-[#E8E8E8] first:border-t">
-                <button
-                  type="button"
-                  onMouseEnter={() => {
-                    setActive(i);
-                    setHovered(i);
-                  }}
-                  onFocus={() => {
-                    setActive(i);
-                    setHovered(i);
-                  }}
-                  onMouseLeave={() => setHovered(null)}
-                  onBlur={() => setHovered(null)}
-                  className="hidden w-full items-center justify-between gap-6 py-7 text-left transition-colors duration-300 lg:flex"
-                  style={{
-                    backgroundColor: hovered === i ? "rgba(0,0,0,0.02)" : "transparent",
-                  }}
-                >
-                  <div>
-                    <div
-                      className="inline-block origin-left text-lg font-medium transition-all duration-300"
-                      style={{
-                        color: hovered === i ? "#000000" : "rgba(0,0,0,0.4)",
-                        transform: hovered === i ? "scale(1.03)" : "scale(1)",
-                      }}
-                    >
-                      {course.name}
-                    </div>
-                    <p className="mt-1 text-sm text-black/40">{course.description}</p>
-                  </div>
-                  <span
-                    className="shrink-0 text-xl text-black transition-transform duration-300"
-                    style={{ transform: `translateX(${hovered === i ? 8 : 0}px)` }}
-                  >
-                    →
-                  </span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setOpenMobile(openMobile === i ? null : i)}
-                  className="flex w-full items-center justify-between gap-6 py-6 text-left lg:hidden"
-                >
-                  <div>
-                    <div className="text-lg font-medium text-black">{course.name}</div>
-                    <p className="mt-1 text-sm text-black/40">{course.description}</p>
-                  </div>
-                  <span
-                    className="shrink-0 text-xl text-black transition-transform duration-300"
-                    style={{
-                      transform: openMobile === i ? "rotate(90deg)" : "rotate(0deg)",
-                    }}
-                  >
-                    →
-                  </span>
-                </button>
-                {openMobile === i && (
-                  <div className="relative mb-6 aspect-[16/10] overflow-hidden rounded-xl lg:hidden">
-                    <img
-                      src={course.image}
-                      alt={course.name}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                )}
+          {filteredCourses.map((course) => (
+            <div
+              key={course.name}
+              className="group overflow-hidden rounded-2xl border border-line bg-white transition-shadow duration-300 hover:shadow-lg"
+            >
+              <div className="aspect-[16/10] overflow-hidden">
+                <img
+                  src={course.image}
+                  alt={course.name}
+                  className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                />
               </div>
-            ))}
-          </div>
+              <div className="p-6">
+                <h3 className="text-lg font-medium text-ink">{course.name}</h3>
+                <p className="mt-1 text-sm text-ink-muted">{course.description}</p>
+              </div>
+            </div>
+          ))}
+
+          {filteredCourses.length === 0 && (
+            <p className="col-span-full py-10 text-center text-sm text-ink-muted">
+              No courses match &quot;{query}&quot;.
+            </p>
+          )}
+        </div>
+
+        <div className="mt-12 flex justify-center">
+          <a
+            href="#contact"
+            className="rounded-full border border-line px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-black/[0.03]"
+          >
+            View All Courses
+          </a>
         </div>
       </div>
     </section>
