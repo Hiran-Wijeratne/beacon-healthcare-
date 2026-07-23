@@ -22,7 +22,7 @@ export default function Hero() {
         src="/images/manikin-cutout.png"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 select-none opacity-90 sm:max-w-6xl"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 select-none opacity-40 sm:max-w-6xl"
       />
 
       <div className="relative z-10 mx-auto max-w-3xl px-6">
