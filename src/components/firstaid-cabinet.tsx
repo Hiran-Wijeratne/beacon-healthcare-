@@ -29,11 +29,12 @@ export default function FirstAidCabinet() {
     const onEnded = () => setShowText(true);
     video.addEventListener("ended", onEnded);
 
-    // Starts once the section is fully visible and is left alone to play
-    // through to its last frame while the user stays anywhere in or near
-    // the section — it only resets once the section leaves the viewport
-    // entirely (scrolled fully out, above or below), ready to play from
-    // the start again the next time it's scrolled back into full view.
+    // Starts as soon as a quarter of the section has scrolled into view
+    // (not waiting for it to be fully on screen), then plays through to
+    // its last frame while the user stays anywhere in or near the section
+    // — it only resets once the section leaves the viewport entirely
+    // (scrolled fully out, above or below), ready to play from the start
+    // again the next time it's scrolled back into view.
     let hasPlayedSinceLastExit = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -44,14 +45,14 @@ export default function FirstAidCabinet() {
           setShowText(false);
           return;
         }
-        if (entry.intersectionRatio >= 0.99 && !hasPlayedSinceLastExit) {
+        if (entry.intersectionRatio >= 0.25 && !hasPlayedSinceLastExit) {
           video.currentTime = 0;
           setShowText(false);
           video.play().catch(() => {});
           hasPlayedSinceLastExit = true;
         }
       },
-      { threshold: [0, 1.0] },
+      { threshold: [0, 0.25] },
     );
     observer.observe(section);
 
@@ -77,9 +78,14 @@ export default function FirstAidCabinet() {
           }`}
         >
           <p className="text-[clamp(0.75rem,1.6vw,1.35rem)] font-semibold leading-snug tracking-tight text-ink">
-            The moment you need a first aid kit...
+            The moment you need
             <br />
-            ...isn&apos;t the moment to wonder what to do.
+            a first aid kit...
+            <br />
+            <br />
+            you should already
+            <br />
+            know what to do.
           </p>
           <p className="text-[clamp(0.6rem,1.15vw,1rem)] leading-snug text-ink-muted">
             The decisions that matter most are made long before an emergency
