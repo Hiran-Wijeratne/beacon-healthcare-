@@ -30,8 +30,8 @@ const WIND_MAX = 60;
 // stays at full strength through the Why Beacon section (roughly one
 // viewport tall) so it doesn't ease off partway through, then relaxes
 // gradually across the entire rest of the page — Courses, Corporate
-// Training, Preparation, and the final CTA — only returning to full
-// native speed right at the bottom of the page.
+// Training, and the final CTA — only returning to full native speed
+// right at the bottom of the page.
 const RESISTANCE_FULL_ZONE_VH = 100;
 const RESISTANCE_MIN_FACTOR = 0.35;
 
