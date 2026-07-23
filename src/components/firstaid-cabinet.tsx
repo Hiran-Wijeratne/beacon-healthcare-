@@ -71,6 +71,9 @@ export default function FirstAidCabinet() {
           muted
           playsInline
           preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
+          controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
           className="block w-full bg-white [transform:translateZ(0)]"
         >
           <source src={encodeURI("/videos/firstaid cabinet.mp4")} type="video/mp4" />

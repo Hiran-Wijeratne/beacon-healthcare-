@@ -20,6 +20,18 @@ body {
   color: var(--ink);
 }
 
+/* None of our <video> elements use native controls — this suppresses the
+   browser's own hover-triggered overlay icons (picture-in-picture,
+   fullscreen) that some browsers show near the bottom-right corner on
+   cursor hover even without the controls attribute. */
+video::-webkit-media-controls,
+video::-webkit-media-controls-enclosure,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-picture-in-picture-button,
+video::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
 @keyframes ecg-travel {
   from {
     stroke-dashoffset: 0;
