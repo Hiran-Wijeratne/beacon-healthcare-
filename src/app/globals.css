@@ -19,3 +19,13 @@ body {
   background: var(--paper);
   color: var(--ink);
 }
+
+@keyframes ecg-travel {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    /* one full highlight-length + gap-length cycle, so the loop is seamless */
+    stroke-dashoffset: -7293.79px;
+  }
+}
