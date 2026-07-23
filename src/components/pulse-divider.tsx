@@ -77,12 +77,12 @@ function bindGlobalPulseTrigger() {
   window.addEventListener("click", onActivity);
 }
 
-function flatPath() {
-  return `M0,${BASELINE_Y} L${WIDTH},${BASELINE_Y}`;
-}
+// Empty (zero-length) so the active-segment overlay disappears cleanly
+// between heartbeats, leaving only the permanent gray guide line below it.
+const EMPTY_PATH = `M0,${BASELINE_Y}`;
 
 export default function PulseDivider({ className = "" }: { className?: string }) {
-  const pathRef = useRef<SVGPathElement | null>(null);
+  const activePathRef = useRef<SVGPathElement | null>(null);
   const bornAtRef = useRef<number | null>(null); // null while no heartbeat is in flight
   const rafRef = useRef<number | null>(null);
 
@@ -90,26 +90,24 @@ export default function PulseDivider({ className = "" }: { className?: string })
     bindGlobalPulseTrigger();
 
     const tick = (now: number) => {
-      const path = pathRef.current;
+      const path = activePathRef.current;
       const bornAt = bornAtRef.current;
 
       if (path && bornAt != null) {
         const age = now - bornAt;
         if (age > TRAVEL_MS) {
           bornAtRef.current = null;
-          path.setAttribute("d", flatPath());
+          path.setAttribute("d", EMPTY_PATH);
         } else {
           const currentX = ENTRY_X + SPEED_PER_MS * age;
           const lo = Math.max(0, currentX - KERNEL_SPAN);
           const hi = Math.min(WIDTH, currentX + KERNEL_SPAN);
 
-          let d = `M0,${BASELINE_Y}`;
-          if (lo > 0) d += ` L${lo.toFixed(2)},${BASELINE_Y}`;
+          let d = `M${lo.toFixed(2)},${BASELINE_Y}`;
           for (let x = Math.ceil(lo / SAMPLE_STEP) * SAMPLE_STEP; x <= hi; x += SAMPLE_STEP) {
             const y = BASELINE_Y + ecgOffset(currentX - x);
             d += ` L${x.toFixed(2)},${y.toFixed(2)}`;
           }
-          if (hi < WIDTH) d += ` L${WIDTH},${BASELINE_Y}`;
           path.setAttribute("d", d);
         }
       }
@@ -140,11 +138,20 @@ export default function PulseDivider({ className = "" }: { className?: string })
         preserveAspectRatio="none"
         aria-hidden
       >
+        {/* Permanent resting guide — identical to the plain divider line. */}
         <path
-          ref={pathRef}
-          d={flatPath()}
+          d={`M0,${BASELINE_Y} L${WIDTH},${BASELINE_Y}`}
           fill="none"
           stroke="var(--line)"
+          strokeWidth={1}
+          vectorEffect="non-scaling-stroke"
+        />
+        {/* Active heartbeat segment — same line, brand-red, only while travelling. */}
+        <path
+          ref={activePathRef}
+          d={EMPTY_PATH}
+          fill="none"
+          stroke="#af3337"
           strokeWidth={1}
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"
