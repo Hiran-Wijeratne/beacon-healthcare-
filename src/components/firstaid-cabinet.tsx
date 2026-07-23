@@ -28,13 +28,13 @@ export default function FirstAidCabinet() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="h-screen w-full">
+    <section ref={sectionRef} className="flex justify-center bg-paper px-6 py-16 sm:py-20">
       <video
         ref={videoRef}
         muted
         playsInline
         preload="auto"
-        className="h-full w-full object-cover"
+        className="w-3/4 rounded-xl shadow-xl"
       >
         <source src={encodeURI("/videos/firstaid cabinet.mp4")} type="video/mp4" />
       </video>
