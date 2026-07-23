@@ -28,7 +28,7 @@ export default function FirstAidCabinet() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="flex justify-center bg-paper px-6 py-16 sm:py-20">
+    <section ref={sectionRef} className="flex justify-center bg-white px-6">
       <video
         ref={videoRef}
         muted
