@@ -77,16 +77,18 @@ export default function FirstAidCabinet() {
             showText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
-            The moment you need
-            <br />
-            a first aid kit...
-            <br />
-            <br />
-            you should already
-            <br />
-            know what to do.
-          </p>
+          <div className="flex flex-col items-end gap-1">
+            <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
+              The moment you need
+              <br />
+              a first aid kit...
+            </p>
+            <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
+              you should already
+              <br />
+              know what to do.
+            </p>
+          </div>
           <p className="text-lg leading-relaxed text-ink-muted">
             The decisions that matter most are made long before an emergency
             begins.
