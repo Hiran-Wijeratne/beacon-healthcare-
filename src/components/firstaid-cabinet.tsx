@@ -77,7 +77,7 @@ export default function FirstAidCabinet() {
             showText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="text-[clamp(0.75rem,3vw,2.55rem)] font-medium leading-tight tracking-tight text-ink">
+          <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
             The moment you need
             <br />
             a first aid kit...
@@ -87,7 +87,7 @@ export default function FirstAidCabinet() {
             <br />
             know what to do.
           </p>
-          <p className="text-[clamp(0.6rem,2.2vw,1.9rem)] leading-relaxed text-ink-muted">
+          <p className="text-lg leading-relaxed text-ink-muted">
             The decisions that matter most are made long before an emergency
             begins.
           </p>
