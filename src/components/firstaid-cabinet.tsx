@@ -90,8 +90,7 @@ export default function FirstAidCabinet() {
             </p>
           </div>
           <p className="text-lg leading-relaxed text-ink-muted">
-            The decisions that matter most are made long before an emergency
-            begins.
+            Preparation begins long before an emergency.
           </p>
         </div>
       </div>
