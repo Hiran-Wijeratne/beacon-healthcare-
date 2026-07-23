@@ -77,7 +77,7 @@ export default function FirstAidCabinet() {
             showText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-col items-end gap-2">
             <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
               The moment you need
               <br />
