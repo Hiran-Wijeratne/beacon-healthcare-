@@ -23,23 +23,27 @@ export default function FirstAidCabinet() {
     applyPlaybackSpeed();
     video.addEventListener("loadedmetadata", applyPlaybackSpeed);
 
-    // Plays from the start every time the section becomes fully visible,
-    // and resets back to the first frame as soon as it's scrolled fully
-    // out of view again — so it's always ready to replay from scratch.
-    let wasFullyVisible = false;
+    // Starts once the section is fully visible and is left alone to play
+    // through to its last frame while the user stays anywhere in or near
+    // the section — it only resets once the section leaves the viewport
+    // entirely (scrolled fully out, above or below), ready to play from
+    // the start again the next time it's scrolled back into full view.
+    let hasPlayedSinceLastExit = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const isFullyVisible = entry.intersectionRatio >= 0.99;
-        if (isFullyVisible && !wasFullyVisible) {
-          video.currentTime = 0;
-          video.play().catch(() => {});
-        } else if (!isFullyVisible && wasFullyVisible) {
+        if (!entry.isIntersecting) {
           video.pause();
           video.currentTime = 0;
+          hasPlayedSinceLastExit = false;
+          return;
         }
-        wasFullyVisible = isFullyVisible;
+        if (entry.intersectionRatio >= 0.99 && !hasPlayedSinceLastExit) {
+          video.currentTime = 0;
+          video.play().catch(() => {});
+          hasPlayedSinceLastExit = true;
+        }
       },
-      { threshold: 1.0 },
+      { threshold: [0, 1.0] },
     );
     observer.observe(section);
 
