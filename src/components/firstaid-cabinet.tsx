@@ -77,19 +77,19 @@ export default function FirstAidCabinet() {
             showText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
+          <div className="flex flex-col items-center gap-[clamp(2px,1vw,10px)]">
+            <p className="text-[clamp(0.75rem,3vw,2.55rem)] font-medium leading-none tracking-tight text-ink">
               The moment you need
               <br />
               a first aid kit...
             </p>
-            <p className="text-3xl font-medium leading-none tracking-tight text-ink sm:text-[40px]">
+            <p className="text-[clamp(0.75rem,3vw,2.55rem)] font-medium leading-none tracking-tight text-ink">
               you should already
               <br />
               know what to do.
             </p>
           </div>
-          <p className="text-lg leading-relaxed text-ink-muted">
+          <p className="text-[clamp(0.6rem,2.2vw,1.9rem)] leading-relaxed text-ink-muted">
             Preparation begins long before an emergency.
           </p>
         </div>
