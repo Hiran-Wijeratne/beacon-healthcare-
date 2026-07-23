@@ -34,7 +34,7 @@ export default function FirstAidCabinet() {
         muted
         playsInline
         preload="auto"
-        className="w-3/4 rounded-xl shadow-xl"
+        className="w-3/4"
       >
         <source src={encodeURI("/videos/firstaid cabinet.mp4")} type="video/mp4" />
       </video>
