@@ -282,7 +282,7 @@ export default function ScrollVideo({
     <div
       id="why-beacon"
       ref={trackRef}
-      className="relative -mt-12 sm:-mt-16"
+      className="relative"
       style={{ height: `${TRACK_HEIGHT_VH}vh` }}
     >
       <div className="sticky top-0 flex h-screen w-full items-start justify-center overflow-hidden bg-paper">

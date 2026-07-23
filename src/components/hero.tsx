@@ -16,16 +16,16 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative mx-auto max-w-3xl overflow-hidden px-6 pt-12 pb-20 text-center sm:pt-16 sm:pb-24"
+      className="relative overflow-hidden pt-12 pb-20 text-center sm:pt-16 sm:pb-24"
     >
       <img
         src="/images/manikin.svg"
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 select-none opacity-90 sm:max-w-2xl"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-0 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 select-none opacity-90 sm:max-w-6xl"
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 mx-auto max-w-3xl px-6">
         <p
           className="mx-auto mb-6 inline-flex items-center rounded-full border border-line bg-white/60 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-ink transition-all duration-700 ease-out"
           style={riseStyle(100)}
