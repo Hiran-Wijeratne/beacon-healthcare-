@@ -73,11 +73,11 @@ export default function FirstAidCabinet() {
         {/* Matches the open cabinet's interior cavity in the video's last
             frame (measured from the source footage), not the whole frame. */}
         <div
-          className={`pointer-events-none absolute left-[38.5%] top-[14%] flex h-[70%] w-[44%] flex-col items-center justify-center gap-[6%] p-[3%] text-center transition-opacity duration-700 ease-out ${
+          className={`pointer-events-none absolute left-[38.5%] top-[14%] flex h-[70%] w-[44%] flex-col items-end justify-center gap-[6%] p-[3%] text-right transition-opacity duration-700 ease-out ${
             showText ? "opacity-100" : "opacity-0"
           }`}
         >
-          <p className="text-[clamp(0.75rem,3vw,2.55rem)] font-semibold leading-snug tracking-tight text-ink">
+          <p className="text-[clamp(0.75rem,3vw,2.55rem)] font-medium leading-tight tracking-tight text-ink">
             The moment you need
             <br />
             a first aid kit...
@@ -87,7 +87,7 @@ export default function FirstAidCabinet() {
             <br />
             know what to do.
           </p>
-          <p className="text-[clamp(0.6rem,2.2vw,1.9rem)] leading-snug text-ink-muted">
+          <p className="text-[clamp(0.6rem,2.2vw,1.9rem)] leading-relaxed text-ink-muted">
             The decisions that matter most are made long before an emergency
             begins.
           </p>
