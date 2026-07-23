@@ -8,49 +8,46 @@ const PULSE_EVENT = "beacon:section-pulse";
 // having stopped, letting the next input start a new trigger.
 const IDLE_RESET_MS = 400;
 
+const SAMPLE_COUNT = 100;
 const BASELINE_Y = 12;
-const WIDTH = 100; // viewBox width, in the same units as every x below
-const SAMPLE_STEP = 0.5; // finer than 1 unit so the rounded P/T humps read as curves, not facets
+// Constant travel speed (in viewBox units per ms) so every pulse moves at
+// the same visual pace regardless of how far it has to go — this crosses
+// the full width of the line in ~1.8s.
+const SPEED_PER_MS = 100 / 1800;
+const FADE_MS = 150; // eases the whole blip in and out at the start/end of its life
+const STAGGER_MS = 450;
 
-// A normal sinus rhythm complex, built from named segments rather than a
-// generic point list: P and T are smooth raised-cosine humps (no kinks at
-// their edges), Q/R/S are narrow linear spikes — the sharp angularity is
-// deliberately confined to the QRS complex, everything else is a curve.
-// Positioned so the whole shape sits fully off-screen at entry and exit;
-// x-offsets are relative to the pulse's current head position, and are
-// negative-first (P) to positive-last (T) to read left-to-right in time
-// as the head travels rightward — see currentX below.
-type Hump = { kind: "cosine" | "triangle"; center: number; halfWidth: number; amplitude: number };
-
-const SEGMENTS: Hump[] = [
-  { kind: "cosine", center: -7.5, halfWidth: 1.8, amplitude: -1.4 }, // P wave (up, smooth)
-  { kind: "triangle", center: -1.1, halfWidth: 0.5, amplitude: 0.7 }, // Q dip (down, sharp)
-  { kind: "triangle", center: 0, halfWidth: 0.6, amplitude: -7 }, // R spike (up, tall, sharp)
-  { kind: "triangle", center: 0.9, halfWidth: 0.5, amplitude: 0.85 }, // S dip (down, sharp, deeper than Q)
-  { kind: "cosine", center: 6.5, halfWidth: 2.8, amplitude: -1.7 }, // T wave (up, broad, smooth)
+// Traced from the brand's own favicon/logo pulse icon (public/images/
+// favicon-source.png): a small up-notch, a sharp tall spike, a deep dip
+// below the baseline, then a smaller recovery bump. (x-offset, y-offset)
+// control points around the pulse's current position — SVG y grows
+// downward, so the upward strokes use negative offsets. Linear
+// interpolation between them is deliberate: that's what gives the source
+// icon its sharp, angular strokes rather than smooth curves.
+const ECG_POINTS: [number, number][] = [
+  [-12, 0],
+  [-9, 0],
+  [-6.7, -2.3],
+  [-4.3, -0.7],
+  [0, -9],
+  [4.8, 2.5],
+  [8.4, -1.8],
+  [11, 0],
+  [12, 0],
 ];
-const KERNEL_SPAN = Math.max(...SEGMENTS.map((s) => Math.abs(s.center) + s.halfWidth));
+const KERNEL_SPAN = -ECG_POINTS[0][0];
 
 function ecgOffset(dx: number) {
-  let y = 0;
-  for (const seg of SEGMENTS) {
-    const d = dx - seg.center;
-    if (Math.abs(d) >= seg.halfWidth) continue;
-    y +=
-      seg.kind === "cosine"
-        ? seg.amplitude * 0.5 * (1 + Math.cos((Math.PI * d) / seg.halfWidth))
-        : seg.amplitude * (1 - Math.abs(d) / seg.halfWidth);
+  if (dx <= ECG_POINTS[0][0] || dx >= ECG_POINTS[ECG_POINTS.length - 1][0]) return 0;
+  for (let i = 0; i < ECG_POINTS.length - 1; i++) {
+    const [x0, y0] = ECG_POINTS[i];
+    const [x1, y1] = ECG_POINTS[i + 1];
+    if (dx >= x0 && dx <= x1) {
+      return y0 + ((y1 - y0) * (dx - x0)) / (x1 - x0);
+    }
   }
-  return y;
+  return 0;
 }
-
-// Constant travel speed (viewBox units per ms), covering the full entry-to-
-// exit distance in a fixed time — the beat moves at one steady pace, never
-// easing or overshooting.
-const ENTRY_X = -KERNEL_SPAN;
-const EXIT_X = WIDTH + KERNEL_SPAN;
-const TRAVEL_MS = 2200;
-const SPEED_PER_MS = (EXIT_X - ENTRY_X) / TRAVEL_MS;
 
 let globalTriggerBound = false;
 
@@ -77,13 +74,19 @@ function bindGlobalPulseTrigger() {
   window.addEventListener("click", onActivity);
 }
 
+type ActivePulse = {
+  startX: number;
+  bornAt: number;
+  durationMs: number;
+};
+
 function flatPath() {
-  return `M0,${BASELINE_Y} L${WIDTH},${BASELINE_Y}`;
+  return `M0,${BASELINE_Y} L${SAMPLE_COUNT},${BASELINE_Y}`;
 }
 
 export default function PulseDivider({ className = "" }: { className?: string }) {
   const pathRef = useRef<SVGPathElement | null>(null);
-  const bornAtRef = useRef<number | null>(null); // null while no heartbeat is in flight
+  const pulsesRef = useRef<ActivePulse[]>([]);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -91,38 +94,55 @@ export default function PulseDivider({ className = "" }: { className?: string })
 
     const tick = (now: number) => {
       const path = pathRef.current;
-      const bornAt = bornAtRef.current;
+      if (path) {
+        const ys = new Array(SAMPLE_COUNT + 1).fill(BASELINE_Y);
 
-      if (path && bornAt != null) {
-        const age = now - bornAt;
-        if (age > TRAVEL_MS) {
-          bornAtRef.current = null;
-          path.setAttribute("d", flatPath());
-        } else {
-          const currentX = ENTRY_X + SPEED_PER_MS * age;
-          const lo = Math.max(0, currentX - KERNEL_SPAN);
-          const hi = Math.min(WIDTH, currentX + KERNEL_SPAN);
+        pulsesRef.current = pulsesRef.current.filter((pulse) => {
+          const age = now - pulse.bornAt;
+          if (age < 0) return true; // staggered pulse hasn't started yet
+          if (age > pulse.durationMs) return false; // finished, drop it
 
-          let d = `M0,${BASELINE_Y}`;
-          if (lo > 0) d += ` L${lo.toFixed(2)},${BASELINE_Y}`;
-          for (let x = Math.ceil(lo / SAMPLE_STEP) * SAMPLE_STEP; x <= hi; x += SAMPLE_STEP) {
-            const y = BASELINE_Y + ecgOffset(currentX - x);
-            d += ` L${x.toFixed(2)},${y.toFixed(2)}`;
+          const currentX = pulse.startX - SPEED_PER_MS * age;
+          const fade = Math.min(1, age / FADE_MS, (pulse.durationMs - age) / FADE_MS);
+
+          const lo = Math.max(0, Math.ceil(currentX - KERNEL_SPAN));
+          const hi = Math.min(SAMPLE_COUNT, Math.floor(currentX + KERNEL_SPAN));
+          for (let i = lo; i <= hi; i++) {
+            ys[i] += fade * ecgOffset(i - currentX);
           }
-          if (hi < WIDTH) d += ` L${WIDTH},${BASELINE_Y}`;
+          return true;
+        });
+
+        if (pulsesRef.current.length > 0) {
+          let d = `M0,${ys[0].toFixed(2)}`;
+          for (let i = 1; i <= SAMPLE_COUNT; i++) {
+            d += ` L${i},${ys[i].toFixed(2)}`;
+          }
           path.setAttribute("d", d);
+        } else {
+          path.setAttribute("d", flatPath());
         }
       }
 
-      rafRef.current = bornAtRef.current != null ? requestAnimationFrame(tick) : null;
+      rafRef.current = pulsesRef.current.length > 0 ? requestAnimationFrame(tick) : null;
     };
 
-    const onPulse = () => {
-      if (bornAtRef.current != null) return; // only one heartbeat on the line at a time
-      bornAtRef.current = performance.now();
+    const ensureLoop = () => {
       if (rafRef.current == null) {
         rafRef.current = requestAnimationFrame(tick);
       }
+    };
+
+    const onPulse = () => {
+      const now = performance.now();
+      // Starts anywhere along the line and travels left, so the distance
+      // (and therefore lifetime) varies with where it happens to begin.
+      [0, STAGGER_MS].forEach((delay) => {
+        const startX = Math.random() * 90 + 5;
+        const durationMs = (startX + KERNEL_SPAN) / SPEED_PER_MS;
+        pulsesRef.current.push({ startX, bornAt: now + delay, durationMs });
+      });
+      ensureLoop();
     };
 
     window.addEventListener(PULSE_EVENT, onPulse);
@@ -136,7 +156,7 @@ export default function PulseDivider({ className = "" }: { className?: string })
     <div className={`relative h-px w-full ${className}`}>
       <svg
         className="pointer-events-none absolute left-0 top-1/2 h-6 w-full -translate-y-1/2 overflow-visible"
-        viewBox={`0 0 ${WIDTH} 24`}
+        viewBox={`0 0 ${SAMPLE_COUNT} 24`}
         preserveAspectRatio="none"
         aria-hidden
       >
