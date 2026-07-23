@@ -1,5 +1,6 @@
 import CorporateTraining from "@/components/corporate-training";
 import FinalCta from "@/components/final-cta";
+import FirstAidCabinet from "@/components/firstaid-cabinet";
 import Hero from "@/components/hero";
 import OurCourses from "@/components/our-courses";
 import ScrollVideo from "@/components/scroll-video";
@@ -20,6 +21,8 @@ export default function Home() {
       <OurCourses />
 
       <CorporateTraining />
+
+      <FirstAidCabinet />
 
       <FinalCta />
     </>
