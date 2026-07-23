@@ -12,8 +12,8 @@ const SAMPLE_COUNT = 100;
 const BASELINE_Y = 12;
 // Constant travel speed (in viewBox units per ms) so every pulse moves at
 // the same visual pace regardless of how far it has to go — this crosses
-// the full width of the line in ~1.8s.
-const SPEED_PER_MS = 100 / 1800;
+// the full width of the line in ~3.6s.
+const SPEED_PER_MS = 100 / 3600;
 const FADE_MS = 150; // eases the whole blip in and out at the start/end of its life
 const STAGGER_MS = 450;
 
