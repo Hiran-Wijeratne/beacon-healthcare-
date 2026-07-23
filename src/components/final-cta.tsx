@@ -36,7 +36,7 @@ export default function FinalCta() {
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-white/85" />
+        <div className="absolute inset-0 bg-white/65" />
 
         {/* CTA */}
         <div className="relative mx-auto max-w-2xl px-6 py-20 text-center sm:py-28">
