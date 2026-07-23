@@ -8,14 +8,25 @@ const HIGHLIGHT_LENGTH = 180;
 
 export default function EcgDivider() {
   return (
-    <div className="w-full bg-paper py-8" aria-hidden="true">
-      <svg width="100%" viewBox="0 0 1920 507" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className="relative w-full overflow-hidden py-8" aria-hidden="true">
+      <img
+        src={encodeURI("/images/life support image.png")}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <svg
+        width="100%"
+        viewBox="0 0 1920 507"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="relative"
+      >
         <g clipPath="url(#ecg-divider-clip)">
           {/* Base line — visible resting state of the whole path. */}
           <path
             d={PATH_D}
-            stroke="var(--ink-muted)"
-            strokeOpacity="0.3"
+            stroke="var(--paper)"
+            strokeOpacity="0.7"
             strokeWidth="2"
             strokeMiterlimit="10"
           />
